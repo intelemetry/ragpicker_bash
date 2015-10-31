@@ -226,7 +226,7 @@ EOT
 # preprocessing #
 #################
 
-cat <<EOT>> /opt/ragpicker/config/crawler.conf
+cat <<EOT>> /opt/ragpicker/config/preProcessing.conf
 [01_unpack_archive]
 enabled = yes
 dataTypes = Zip, RAR
@@ -257,11 +257,185 @@ EOT
 # processing #
 ##############
 
-cat <<EOT>> /opt/ragpicker/config/crawler.conf
+cat <<EOT>> /opt/ragpicker/config/processing.conf
 [all_info]
 enabled = yes
 
 [all_bluecoatMalwareAnalysisAppliance]
 enabled = no
 
+#MAA server Host
+host = 127.0.0.1
+#MAA server Port
+port = 443
+#tp_IVM.TIMEOUT
+timeout = 120
+#The MAA needs an API key
+apikey =
+#The user name under which the files are to be executed
+user =
+#
+https = yes 
+
+[all_cuckooSandbox]
+#Adds the Sample to the list of pending tasks to be processed and analyzed.
+#Response = Task-ID
+#Needs Cuckoo's lightweight REST API server!
+#http://docs.cuckoosandbox.org/en/latest/usage/api.html
+enabled = yes
+# TODO 
+
+#REST API server Host
+host = 127.0.0.1
+#REST API server Port
+port = 8090
+
+[all_subFile]
+#Find subfile in any binary stream
+enabled = yes
+
+[all_virustotal]
+enabled = yes
+# Add your VirusTotal API key here. The default API key, kindly provided
+# by the VirusTotal team, should enable you with a sufficient throughput
+# and while being shared with all our users, it shouldn't affect your use.
+apikey = f05482f8d7018cfb03d3f2974c673690662daa641bec29a251d9992fe9220e31
+
+[all_yara]
+enabled = yes
+rulepath = ./data/index_sample.yar
+
+[net_getOwnLocation]
+#returns the own internet location when you use tor, proxy or v-server
+enabled = yes
+
+[antivirus_teamcymru]
+enabled = no
+# TODO - document 
+
+[antivirus_avast]
+enabled = no
+avast_path = /usr/bin/avast
+# TODO - document
+
+[antivirus_avg]
+enabled = no
+avg_path = /usr/bin/avgscan
+
+[antivirus_avira]
+enabled = no
+avira_path = /usr/bin/avscan
+avira_heur_level = 3
+quarantine-dir = /tmp/
+
+[antivirus_bitDefender]
+enabled = no
+bdscan_path = /usr/bin/bdscan
+
+[antivirus_clamav]
+enabled = yes
+clamscan_path = /usr/bin/clamscan
+
+[antivirus_eset]
+enabled = no
+eset_path = /opt/eset/esets/sbin/esets_scan
+
+[antivirus_comodo]
+enabled = no
+comodo_path = /opt/COMODO/cmdscan
+
+[antivirus_fprot]
+enabled = no
+fprot_path = /usr/local/bin/fpscan
+
+[antivirus_fsecure]
+enabled = no
+fsecure_path = /opt/f-secure/fsav/bin/fsav
+
+[pdf_pdfid]
+enabled = yes
+dataTypes = PDF
+
+[pe_verifySigs]
+#Compute hashes and validate signatures.
+enabled = yes
+dataTypes = PE32, PE32+, MS-DOS
+#second chance with sysinternals sigcheck on wine
+sysinternals_enabled = true
+#path to wine
+wine = /usr/bin/wine
+
+[pe_pefile]
+enabled = yes
+dataTypes = PE32, PE32+, MS-DOS
+
+
+[ole_officescan]
+#uses OfficeMalScanner on Wine (http://www.reconstructer.org/code.html)
+#requires a Wine installation!
+enabled = yes
+dataTypes = Composite
+#path to wine
+wine = /usr/bin/wine
+#brute - enables the "brute force mode" to find encrypted stuff (slow!)
+brute = true
+
+[rtf_rtfscan]
+#uses RTFScan from OfficeMalScanner on Wine (http://www.reconstructer.org/code.html)
+#requires a Wine installation!
+enabled = yes
+dataTypes = Rich
+#path to wine
+wine = /usr/bin/wine
+
 EOT 
+
+
+cat <<EOT>> /opt/ragpicker/config/reporting.conf
+[reporthtml]
+enabled = yes 
+dumpdir = ./dumpdir/reports/
+
+[reportxml]
+enabled = no 
+dumpdir = ./dumpdir/reports/
+
+[jsondump]
+enabled = yes
+dumpdir = ./dumpdir/reports/
+
+[mongodb]
+enabled = yes
+host = 127.0.0.1
+port = 27017
+
+[vxcage]
+enabled = yes 
+#REST API server Host
+host = 127.0.0.1
+#REST API server Port
+port = 8080
+
+[codeDB]
+enabled = yes 
+
+#Download images and save in dumpdir
+save_images = yes
+#Make sure this path is correct.
+dumpdir = ./dumpdir/codeDB/
+
+#json-Reports to MongoDB 
+save_reports = yes
+mongo_db_host = 127.0.0.1
+mongo_db_port = 27017
+
+#REST API-Server Host
+host = localhost
+#REST API-Server Port 
+port = 8888
+#API-Server user
+user = test
+#password
+password = 1234qwer
+
+EOT
