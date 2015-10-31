@@ -69,9 +69,9 @@ Vagrant.configure(2) do |config|
   #   sudo apt-get install -y apache2
   # SHELL
 
-  Vagrant.configure("2") do |config|
+
     config.vm.provision "shell", path: "ragpicker.sh"
-  end
+
 
   
 end

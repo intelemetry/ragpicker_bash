@@ -1,6 +1,3 @@
-#!/bin/bash
-# ragpicker provisioning
-
 sudo apt-get install unrar-free
 sudo apt-get install wine
 sudo apt-get install winetricks
@@ -282,7 +279,7 @@ https = yes
 #Response = Task-ID
 #Needs Cuckoo's lightweight REST API server!
 #http://docs.cuckoosandbox.org/en/latest/usage/api.html
-enabled = yes
+enabled = no
 # TODO 
 
 #REST API server Host
