@@ -77,7 +77,7 @@ echo "sqlite:///vxcage.db" >> api.conf # add sqlite db
 
 # install apache ugh :(
 
-apt-get -y install apache2 libapache2-mod-wsgi
+apt-get -y install apache2 libapache2-mod-wsgi apache2-utils
 
 
 # setup the hostname
@@ -160,7 +160,7 @@ EOF
 # install bitdefender 
  add-apt-repository 'deb http://download.bitdefender.com/repos/deb/ bitdefender non-free'
  apt-get -y update
-wget -q http://download.bitdefender.com/repos/deb/bd.key.asc -O- |  apt-key add -
+ wget -q http://download.bitdefender.com/repos/deb/bd.key.asc -O- |  apt-key add -
  apt-get -y install bitdefender-scanner
 
 #### fprot looks deprecated ####
