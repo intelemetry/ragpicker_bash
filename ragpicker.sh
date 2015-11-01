@@ -1,5 +1,8 @@
 
 export DEBIAN_FRONTEND=noninteractive
+apt-get -y update
+apt-get -y update --fix-missing 
+
 apt-get -y install unrar-free
  apt-get -y install wine
  apt-get -y install winetricks
@@ -58,11 +61,11 @@ make
 # begin install vxcage #
 ########################
 
- pip install bottle
- pip install sqlalchemy
- apt-get -y install ssdeep
- pip install pydeep
-
+pip install bottle
+pip install sqlalchemy
+apt-get -y install ssdeep
+apt-get -y install python-dev
+pip install pydeep
 cd ~/
 git clone https://github.com/botherder/vxcage.git
 cd vxcage
@@ -74,16 +77,21 @@ echo "sqlite:///vxcage.db" >> api.conf # add sqlite db
 
 # install apache ugh :(
 
- apt-get -y install apache2 libapache2-mod-wsgi
- a2enmod wsgi
+apt-get -y install apache2 libapache2-mod-wsgi
 
+
+# setup the hostname
+echo "ServerName ragpicker" | sudo tee /etc/apache2/conf-available/fqdn.conf
+
+a2enmod wsgi
+a2enmod ssl 			# enable ssl
 make-ssl-cert /usr/share/ssl-cert/ssleay.cnf /home/vagrant/vxcage.pem
 
 
- hostname protorag
+hostname protorag
 
 # setup apache users
-/path/to/htpasswd -c /etc/htpasswd/.htpasswd vxcage
+htpasswd -c /etc/htpasswd/.htpasswd vxcage
 
 # write apache conf file 
 cat <<'EOF' > /etc/apache2/sites-enabled/vxcage.conf 
@@ -471,10 +479,10 @@ enabled = yes
 #REST API server Host
 host = 127.0.0.1
 #REST API server Port
-port = 8080
+port = 443
 
 [codeDB]
-enabled = yes 
+enabled = no
 
 #Download images and save in dumpdir
 save_images = yes
