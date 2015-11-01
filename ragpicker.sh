@@ -235,8 +235,13 @@ enabled = yes
 [urlquery]
 enabled = yes
 
+#URLs not being processing
+[urlBlackList]
+url = google-earth.xtremedownload.com, xy.test.com, 123.test.com
 
-
+[test]
+enabled = no
+url = http://127.0.0.1/malware/11.pdf,http://127.0.0.1/malware/1.pdf,http://127.0.0.1/malware/2.pdf,http://127.0.0.1/malware/3.pdf,http://127.0.0.1/malware/4.pdf,http://127.0.0.1/malware/5.pdf,http://127.0.0.1/malware/6.pdf,http://127.0.0.1/malware/7.pdf,http://127.0.0.1/malware/8.pdf,http://127.0.0.1/malware/9.pdf,http://127.0.0.1/malware/10.pdf,http://127.0.0.1/malware/1.exe,http://127.0.0.1/malware/2.exe,http://127.0.0.1/malware/3.exe,http://127.0.0.1/malware/4.exe,http://127.0.0.1/malware/5.exe,http://127.0.0.1/malware/6.exe,http://127.0.0.1/malware/7.exe,http://127.0.0.1/malware/8.exe,http://127.0.0.1/malware/9.exe,http://127.0.0.1/malware/10.exe,http://127.0.0.1/malware/sigtest1.exe,http://127.0.0.1/malware/sigtest2.exe,http://127.0.0.1/malware/sigtest3.exe,http://127.0.0.1/malware/sigtest4.exe,http://127.0.0.1/malware/sigtest5.exe,http://127.0.0.1/malware/sigtest6.exe,http://127.0.0.1/malware/sigtest7.exe,http://127.0.0.1/malware/sigtest8.exe,http://127.0.0.1/malware/sigtest9.exe,http://127.0.0.1/malware/sigtest10.exe,http://127.0.0.1/malware/sigtest11.sys,http://127.0.0.1/malware/10.exe,http://127.0.0.1/malware/11.exe,http://127.0.0.1/malware/12.exe,http://127.0.0.1/malware/13.exe
  
 EOF
 
