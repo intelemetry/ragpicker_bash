@@ -1,78 +1,92 @@
-sudo apt-get install unrar-free
-sudo apt-get install wine
-sudo apt-get install winetricks
 
+export DEBIAN_FRONTEND=noninteractive
+apt-get -y install unrar-free
+ apt-get -y install wine
+ apt-get -y install winetricks
+
+ sudo apt-get -y install python-hachoir-metadata
+ sudo apt-get -y install python-hachoir-urwid
+ sudo apt-get -y install python-hachoir-wx
+
+ 
 winetricks nocrashdialog
+ apt-get -y install libfuzzy-dev
+ apt-get -y install clamav
+ apt-get -y install python-requests
+ apt-get -y install python-httplib2
+ apt-get -y install python-yapsy
+ apt-get -y install python-beautifulsoup
+ apt-get -y install python-m2crypto
+ apt-get -y install python-pyasn1
+ apt-get -y install python-jsonpickle
+ apt-get -y install exiftool
 
-sudo apt-get install clamav
-sudo apt-get install python-requests
-sudo apt-get install python-httplib2
-sudo apt-get install python-yapsy
-sudo apt-get install python-beautifulsoup
-sudo apt-get install python-m2crypto
-sudo apt-get install python-pyasn1
-sudo apt-get install python-jsonpickle
-sudo apt-get install exiftool
+ apt-get -y install python-pip
 
-sudo apt-get install python-pip
-sudo pip install bitstring
+ sudo pip install hachoir-core
+ sudo pip install hachoir-parser
+ sudo pip install hachoir-regex
+  sudo pip install hachoir-subfile
+ 
+ pip install bitstring
 
-sudo apt-get install git
+ apt-get -y install git
 
 git clone https://github.com/plusvic/yara.git
 cd yara
-sudo apt-get install autoconf
-sudo apt-get install libtool
-
-sudo apt-get install libjansson-dev
-sudo apt-get install libmagic-dev 
-sudo apt-get install libssl-dev
-sudo apt-get install flex
+ apt-get -y install autoconf
+ apt-get -y install libtool
+ apt-get -y install ant
+ apt-get -y install libjansson-dev
+ apt-get -y install libmagic-dev 
+ apt-get -y install libssl-dev
+ apt-get -y install flex
 
 ./bootstrap.sh
 ./configure --with-crypto --enable-cuckoo --enable-magic
 
 make
-sudo make install
+ make install
 
-sudo apt-get install python-yara
-sudo apt-get install tor
+ apt-get -y install python-yara
+ apt-get -y install tor
 
-sudo pip install hachoir-subfile
+# pip install hachoir-subfile
 
 
 ########################
 # begin install vxcage #
 ########################
 
-sudo pip install bottle
-sudo pip install sqlalchemy
-sudo apt-get install ssdeep
-sudo pip install pydeep
+ pip install bottle
+ pip install sqlalchemy
+ apt-get -y install ssdeep
+ pip install pydeep
 
 cd ~/
 git clone https://github.com/botherder/vxcage.git
 cd vxcage
 sed -i '$ d' api.conf 		# remove last line of file which is mysql
 
-sudo apt-get install sqlite 
+ apt-get -y install sqlite 
 
 echo "sqlite:///vxcage.db" >> api.conf # add sqlite db
 
 # install apache ugh :(
 
-sudo apt-get install apache2 libapache2-mod-wsgi
-sudo a2enmod wsgi
+ apt-get -y install apache2 libapache2-mod-wsgi
+ a2enmod wsgi
 
-sudo make-ssl-cert /usr/share/ssl-cert/ssleay.cnf /home/vagrant/vxcage.pem
+make-ssl-cert /usr/share/ssl-cert/ssleay.cnf /home/vagrant/vxcage.pem
 
-sudo hostname protorag
+
+ hostname protorag
 
 # setup apache users
 /path/to/htpasswd -c /etc/htpasswd/.htpasswd vxcage
 
 # write apache conf file 
-cat <<EOT>> /etc/apache2/sites-enabled/vxcage.conf 
+cat <<'EOF' > /etc/apache2/sites-enabled/vxcage.conf 
 <VirtualHost *:443>
     ServerName protorag
 
@@ -93,7 +107,7 @@ cat <<EOT>> /etc/apache2/sites-enabled/vxcage.conf
         Require valid-user
     </Location>
 
-    SSLEngine on
+    #SSLEngine on
     SSLCertificateFile /home/vagrant/vxcage.pem
 
     ErrorLog /home/vagrant/apacheerror.log
@@ -101,14 +115,14 @@ cat <<EOT>> /etc/apache2/sites-enabled/vxcage.conf
     CustomLog /home/vagrant/apacheaccess.log combined
     ServerSignature Off
 </VirtualHost>
-EOT
+EOF
 
-sudo /etc/init.d/apache2 restart
+ /etc/init.d/apache2 restart
 
 ########## console interaction ##########
 
-sudo pip install prettytable
-sudo pip install progressbar
+ pip install prettytable
+ pip install progressbar
 
 ######################
 # end install vxcage #
@@ -118,9 +132,11 @@ sudo pip install progressbar
 # begin install mongodb #
 #########################
 
-sudo apt-get install mongodb
-sudo apt-get install pymongo
-sudo apt-get install jinja2
+ apt-get -y install mongodb
+ # apt-get -y install pymongo
+ # there is an error in 3 
+ sudo pip install pymongo==2.9
+ apt-get -y install python-jinja2
 
 
 #######################
@@ -128,16 +144,16 @@ sudo apt-get install jinja2
 #######################
 
 # install avg
-apt-get install gdebi
-wget http://download.avgfree.com/filedir/inst/avg2013flx-r3118-a6926.i386.deb
-apt-get install gdebi 		# has user interaction
-sudo /etc/init.d/avgd start	# needs way more setup
+# apt-get -y install gdebi
+# wget http://download.avgfree.com/filedir/inst/avg2013flx-r3118-a6926.i386.deb
+# apt-get -y install gdebi 		# has user interaction
+# sudo /etc/init.d/avgd start	# needs way more setup
 
 # install bitdefender 
-sudo add-apt-repository 'deb http://download.bitdefender.com/repos/deb/ bitdefender non-free'
-sudo apt-get update
-wget -q http://download.bitdefender.com/repos/deb/bd.key.asc -O- | sudo apt-key add -
-sudo apt-get install bitdefender-scanner
+ add-apt-repository 'deb http://download.bitdefender.com/repos/deb/ bitdefender non-free'
+ apt-get -y update
+wget -q http://download.bitdefender.com/repos/deb/bd.key.asc -O- |  apt-key add -
+ apt-get -y install bitdefender-scanner
 
 #### fprot looks deprecated ####
 # https://code.google.com/p/malware-crawler/
@@ -146,16 +162,16 @@ sudo apt-get install bitdefender-scanner
 # prepare ragpicker installation #
 ##################################
 
-sudo apt-get install build-essential python-dev gcc automake libtool python-pip subversion ant
+ apt-get -y install build-essential python-dev gcc automake libtool python-pip subversion ant
 
 cd ~/
 
-sudo mkdir /opt/ragpicker
-sudo chown -R vagrant:vagrant /opt/ragpicker/
-sudo apt-get install subversion 
+ mkdir -p /opt/ragpicker
+ chown -R vagrant:vagrant /opt/ragpicker/
+ apt-get -y install subversion 
 svn checkout https://malware-crawler.googlecode.com/svn/ malware-crawler
 cd malware-crawler/MalwareCrawler/
-sudo apt-get install ant
+
 ant install
 
 # configuration settings 
@@ -167,7 +183,7 @@ cd /opt/ragpicker/config
 # client configuration
 
 
-cat <<EOT>> /opt/ragpicker/config/crawler.conf
+cat <<EOF > /opt/ragpicker/config/crawler.conf
 [clientConfig]
 tor_enabled = yes
 tor_proxyaddress = localhost 
@@ -196,7 +212,10 @@ apikey =
 enabled = yes
 
 [malwarebl]
-enabled = yes 
+enabled = no
+
+[malwaredl]
+enabled = no
 
 [secuboxlabs]
 enabled = yes 
@@ -214,16 +233,18 @@ enabled = yes
 enabled = yes 
 
 [urlquery]
-enabled = yes 
+enabled = yes
 
 
-EOT
+
+ 
+EOF
 
 #################
 # preprocessing #
 #################
 
-cat <<EOT>> /opt/ragpicker/config/preProcessing.conf
+cat <<EOF > /opt/ragpicker/config/preProcessing.conf
 [01_unpack_archive]
 enabled = yes
 dataTypes = Zip, RAR
@@ -247,18 +268,19 @@ brute = true
 [05_pe_carve]
 enabled = yes 
 dataTypes = PE32, PE32+, MS-DOS
-
-EOT
+EOF
 
 ##############
 # processing #
 ##############
 
-cat <<EOT>> /opt/ragpicker/config/processing.conf
+cat <<'EOF'>> /opt/ragpicker/config/processing.conf
 [all_info]
+#Don't disable "info"-Module!!!
 enabled = yes
 
 [all_bluecoatMalwareAnalysisAppliance]
+#https://www.bluecoat.com/products/malware-analysis-appliance
 enabled = no
 
 #MAA server Host
@@ -280,7 +302,6 @@ https = yes
 #Needs Cuckoo's lightweight REST API server!
 #http://docs.cuckoosandbox.org/en/latest/usage/api.html
 enabled = no
-# TODO 
 
 #REST API server Host
 host = 127.0.0.1
@@ -292,15 +313,24 @@ port = 8090
 enabled = yes
 
 [all_virustotal]
-enabled = yes
+enabled = no
 # Add your VirusTotal API key here. The default API key, kindly provided
 # by the VirusTotal team, should enable you with a sufficient throughput
 # and while being shared with all our users, it shouldn't affect your use.
 apikey = f05482f8d7018cfb03d3f2974c673690662daa641bec29a251d9992fe9220e31
 
 [all_yara]
-enabled = yes
+enabled = no
 rulepath = ./data/index_sample.yar
+
+[net_inetSourceAnalysis]
+enabled = yes
+urlvoid = yes
+fortiguard = yes
+urlquery = yes
+ipvoid = yes
+#No analysis of these Domains (comma-separated list)
+whitelist = api.malshare.com,malwr.com,127.0.0.1
 
 [net_getOwnLocation]
 #returns the own internet location when you use tor, proxy or v-server
@@ -308,12 +338,10 @@ enabled = yes
 
 [antivirus_teamcymru]
 enabled = no
-# TODO - document 
 
 [antivirus_avast]
 enabled = no
 avast_path = /usr/bin/avast
-# TODO - document
 
 [antivirus_avg]
 enabled = no
@@ -330,7 +358,7 @@ enabled = no
 bdscan_path = /usr/bin/bdscan
 
 [antivirus_clamav]
-enabled = yes
+enabled = no
 clamscan_path = /usr/bin/clamscan
 
 [antivirus_eset]
@@ -366,6 +394,9 @@ wine = /usr/bin/wine
 enabled = yes
 dataTypes = PE32, PE32+, MS-DOS
 
+[pe_peid]
+enabled = yes
+dataTypes = PE32, PE32+, MS-DOS
 
 [ole_officescan]
 #uses OfficeMalScanner on Wine (http://www.reconstructer.org/code.html)
@@ -384,11 +415,14 @@ enabled = yes
 dataTypes = Rich
 #path to wine
 wine = /usr/bin/wine
+EOF
 
-EOT 
+##################
+# reporting here #
+##################
 
 
-cat <<EOT>> /opt/ragpicker/config/reporting.conf
+cat <<EOF > /opt/ragpicker/config/reporting.conf
 [reporthtml]
 enabled = yes 
 dumpdir = ./dumpdir/reports/
@@ -401,10 +435,31 @@ dumpdir = ./dumpdir/reports/
 enabled = yes
 dumpdir = ./dumpdir/reports/
 
+[filedump]
+enabled = yes
+dumpdir = ./dumpdir/reports/
+
+[hpfriends]
+enabled = no
+channel_reports = ragpicker.reports
+channel_files = ragpicker.files
+host = hpfriends.honeycloud.net
+port = 20000
+ident = 
+secret = 
+
 [mongodb]
 enabled = yes
 host = 127.0.0.1
 port = 27017
+
+[mysql]
+enabled = no
+host = 127.0.0.1
+port = 3306
+database = ragpicker
+user = ragpicker
+password = ragpicker
 
 [vxcage]
 enabled = yes 
@@ -435,4 +490,8 @@ user = test
 #password
 password = 1234qwer
 
-EOT
+EOF
+
+
+cd /opt/ragpicker/
+./ragpicker.py
