@@ -62,9 +62,9 @@ make
 ########################
 
 pip install bottle
+apt-get -y install python-dev
 pip install sqlalchemy
 apt-get -y install ssdeep
-apt-get -y install python-dev
 pip install pydeep
 cd ~/
 git clone https://github.com/botherder/vxcage.git
@@ -80,18 +80,27 @@ echo "sqlite:///vxcage.db" >> api.conf # add sqlite db
 apt-get -y install apache2 libapache2-mod-wsgi apache2-utils
 
 
+
+
 # setup the hostname
+# https://askubuntu.com/questions/256013/could-not-reliably-determine-the-servers-fully-qualified-domain-name
+echo "127.0.1.1 ragpicker" >> /etc/hosts
+
+echo "ServerName localhost" | sudo tee /etc/apache2/conf.d/fqdn
 echo "ServerName ragpicker" | sudo tee /etc/apache2/conf-available/fqdn.conf
+a2enconf fqdn
+
+apache2ctl graceful
 
 a2enmod wsgi
 a2enmod ssl 			# enable ssl
 make-ssl-cert /usr/share/ssl-cert/ssleay.cnf /home/vagrant/vxcage.pem
 
 
-hostname protorag
+hostname ragpicker
 
 # setup apache users
-htpasswd -c /etc/htpasswd/.htpasswd vxcage
+echo vxcage | htpasswd -i -c /home/vagrant/.htpasswd vxcage 
 
 # write apache conf file 
 cat <<'EOF' > /etc/apache2/sites-enabled/vxcage.conf 
